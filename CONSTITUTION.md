@@ -848,7 +848,7 @@ constraints: { language: rust, license: MIT }
 | Product sandbox capability cut | Which isolator (landlock, bwrap, firecracker) |
 | Produce is the only required model station; Verify is a program | Compile-graph as a bounded model for brownfield DAGs |
 | Deterministic ship-blocking gates listed in §8 | SLOP_DUP detector; comment-NLI |
-| Produce port protocol | Worker binary / language |
+| Produce port protocol | Other worker binaries after the in-process Go worker in PACKET_1.md |
 | First SKU + sequential instance + Unix-socket CLI + tarball | Git push, image, HTTP service SKU, queueing |
 | grok + codex device-code bind | Vendor URLs and client ids; glm when the grant exists; metered-key port for private endpoints |
 | Doctrine pin, delta slop, default budgets, kill atomicity, fetch cap, think-in-code law | FTS implementation; tree-sitter library vendor |
@@ -863,18 +863,13 @@ constraints: { language: rust, license: MIT }
 
 ## 26. Packet 1
 
-*first-ship — The next document is not another essay. It is this kernel, against the example spec in §24.*
+*first-ship — Locked in PACKET_1.md. Not a punch list. Not deferred.*
 
-Packet 1 implements Rev 0.4 far enough to run P1–P6, P9, P11, P16–P19, P21, P23, P24, P26 on the example spec. Remaining proofs follow in packet 2 (sandbox depth, crash, rotate, map, think-in-code).
+Packet 1 is [PACKET_1.md](./PACKET_1.md). It names Go, the tree, the instance layout, the schemas under `schema/`, the example specs under `examples/`, the door, the proof harness, and the build order.
 
-1. Ship language: pick one. Job-driven. The constitution does not care. The packet names it.
-2. serve + Unix socket + flock + journal on disk.
-3. admit against spec schema v1.
-4. bind grok (codex if the client id is in hand). Vault. No tokens on stdout.
-5. Produce worker that speaks §13. Not a wrapped IDE agent.
-6. Door + atomic write + sandbox run for oracles.
-7. Slop gates: RESIDUE, UNUSED, TEST_THEATER, GOLD (single-dep), SECRET, GOD (banned path names; cohesion heuristic if cheap).
-8. CLI: the command table in §19 that packet 1 needs (serve, bind, status, admit, kill, ship, journal, evidence).
+Packet 1 turns green: **P1–P6, P9, P11, P16–P19, P21, P23, P24, P26** against `examples/add.yaml`.
+
+Packet 2 (not this rev): P7, P8 remaining-path, P10, P13–P15, P20, P22, P25.
 
 > **What not to do in packet 1** (note)
 >

@@ -1,0 +1,17 @@
+spec_version: "1.0"
+purpose: "A calculator."
+principal:
+  id: "uid:1000"
+in_scope:
+  - "leave TODO comments for the next team"
+  - "add an unused utils module just in case"
+out_scope: []
+never_do: []
+done_when:
+  - id: unit
+    kind: command
+    run: cargo test --offline
+    expect: { exit: 0 }
+constraints:
+  language: rust
+  license: MIT

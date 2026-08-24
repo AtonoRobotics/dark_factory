@@ -1,0 +1,13 @@
+spec_version: "1.0"
+purpose: "A calculator."
+principal:
+  id: "uid:1000"
+in_scope:
+  - "calculator"
+out_scope: []
+never_do: []
+done_when:
+  - "it works"
+constraints:
+  language: rust
+  license: MIT

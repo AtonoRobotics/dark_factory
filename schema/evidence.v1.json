@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AtonoRobotics/dark_factory/schema/evidence.v1.json",
+  "title": "Evidence pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["wo_id", "overall", "oracles", "gates"],
+  "properties": {
+    "wo_id": { "type": "string" },
+    "overall": { "enum": ["pass", "fail"] },
+    "oracles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "pass"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string" },
+          "pass": { "type": "boolean" },
+          "exit": { "type": "integer" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "pass"],
+        "properties": {
+          "id": {
+            "enum": [
+              "SLOP_RESIDUE",
+              "SLOP_UNUSED",
+              "SLOP_GOD",
+              "SLOP_TEST_THEATER",
+              "SLOP_GOLD",
+              "SLOP_SECRET"
+            ]
+          },
+          "pass": { "type": "boolean" },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AtonoRobotics/dark_factory/schema/pass.v1.json",
+  "title": "Compiled Produce pass",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pass_id",
+    "role",
+    "doctrine",
+    "spec_slice",
+    "grant",
+    "product_truth",
+    "evidence",
+    "budgets"
+  ],
+  "properties": {
+    "pass_id": { "type": "string" },
+    "role": { "enum": ["produce", "repair"] },
+    "prefix_cache_keys": { "type": "array", "items": { "type": "string" } },
+    "doctrine": {
+      "type": "object",
+      "required": ["hash", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "hash": { "type": "string" },
+        "text": { "type": "string" }
+      }
+    },
+    "spec_slice": { "type": "object" },
+    "grant": {
+      "type": "object",
+      "required": ["id", "paths", "allow_run", "repair_left"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "paths": { "type": "array", "items": { "type": "string" } },
+        "allow_run": { "type": "boolean" },
+        "repair_left": { "type": "integer" }
+      }
+    },
+    "product_truth": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "bytes"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string" },
+          "bytes": { "type": "string" }
+        }
+      }
+    },
+    "structural_map": { "type": "string" },
+    "evidence": { "type": "array" },
+    "handles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "summary"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "summary": { "type": "string" }
+        }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "required": ["model_calls_left", "fetch_bytes_left"],
+      "additionalProperties": false,
+      "properties": {
+        "model_calls_left": { "type": "integer" },
+        "fetch_bytes_left": { "type": "integer" }
+      }
+    }
+  }
+}

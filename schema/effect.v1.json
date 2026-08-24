@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AtonoRobotics/dark_factory/schema/effect.v1.json",
+  "title": "Produce effect list",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["pass_id", "effects"],
+  "properties": {
+    "pass_id": { "type": "string", "minLength": 1 },
+    "self_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "notes": { "type": "string" } }
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "path", "content"],
+            "properties": {
+              "type": { "const": "write" },
+              "path": { "type": "string" },
+              "content": { "type": "string" },
+              "mode": { "type": "string" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "path"],
+            "properties": {
+              "type": { "const": "delete" },
+              "path": { "type": "string" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "from", "to"],
+            "properties": {
+              "type": { "const": "rename" },
+              "from": { "type": "string" },
+              "to": { "type": "string" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "handle", "query", "max_bytes"],
+            "properties": {
+              "type": { "const": "fetch_handle" },
+              "handle": { "type": "string" },
+              "query": { "type": "string" },
+              "max_bytes": { "type": "integer", "minimum": 0 }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "code"],
+            "properties": {
+              "type": { "const": "raise_exception" },
+              "code": {
+                "enum": [
+                  "SPEC_INCOMPLETE",
+                  "SPEC_CONTRADICTION",
+                  "MISSING_AUTHORITY",
+                  "UNCERTAIN_EFFECT",
+                  "NEVER_DO",
+                  "BUDGET_EXCEEDED",
+                  "REPAIR_EXHAUSTED",
+                  "KILL"
+                ]
+              },
+              "detail": { "type": "string" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type", "path"],
+            "properties": {
+              "type": { "const": "grant_expand" },
+              "path": { "type": "string" }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

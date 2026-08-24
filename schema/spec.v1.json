@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AtonoRobotics/dark_factory/schema/spec.v1.json",
+  "title": "Dark Factory spec v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_version",
+    "purpose",
+    "principal",
+    "in_scope",
+    "out_scope",
+    "never_do",
+    "done_when",
+    "constraints"
+  ],
+  "properties": {
+    "spec_version": { "const": "1.0" },
+    "purpose": { "type": "string", "minLength": 1, "maxLength": 2000 },
+    "principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": { "id": { "type": "string", "minLength": 1 } }
+    },
+    "in_scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "out_scope": { "type": "array", "items": { "type": "string" } },
+    "never_do": { "type": "array", "items": { "type": "string" } },
+    "must_ask_when": { "type": "array", "items": { "type": "string" } },
+    "done_when": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/oracle" }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "license"],
+      "properties": {
+        "language": { "type": "string", "minLength": 1 },
+        "license": { "type": "string", "minLength": 1 },
+        "compatibility": { "type": "array", "items": { "type": "string" } },
+        "perf": { "type": "string" }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repair_cycles": { "type": "integer", "minimum": 0 },
+        "wall_clock_s": { "type": "integer", "minimum": 1 },
+        "model_calls": { "type": "integer", "minimum": 0 },
+        "fetch_bytes_per_pass": { "type": "integer", "minimum": 0 },
+        "map_tokens": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "propertyNames": {
+        "not": {
+          "enum": [
+            "skip_doctrine",
+            "waive_doctrine",
+            "allow_slop",
+            "quality_override",
+            "hil_review",
+            "skip_gates",
+            "human_lgtm"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "expect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exit"],
+      "properties": {
+        "exit": { "type": "integer" },
+        "stdout_contains": { "type": "string" },
+        "stdout_eq": { "type": "string" },
+        "timeout_s": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "oracle": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "kind", "run", "expect"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "kind": { "const": "command" },
+            "run": { "type": "string", "minLength": 1 },
+            "expect": { "$ref": "#/$defs/expect" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "kind", "run", "expect"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "kind": { "const": "probe" },
+            "build": { "type": "string" },
+            "run": { "type": "string", "minLength": 1 },
+            "expect": { "$ref": "#/$defs/expect" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "kind", "path"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "kind": { "const": "file" },
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "kind", "pattern", "in"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "kind": { "const": "not_present" },
+            "pattern": { "type": "string", "minLength": 1 },
+            "in": { "enum": ["shipped_tree", "delta"] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "kind", "path", "sha256"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "kind": { "const": "hash" },
+            "path": { "type": "string", "minLength": 1 },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        }
+      ]
+    }
+  }
+}

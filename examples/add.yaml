@@ -1,0 +1,41 @@
+spec_version: "1.0"
+purpose: >
+  A command-line calculator that adds two integers and exposes a
+  --health flag for the factory probe.
+principal:
+  id: "uid:1000"
+in_scope:
+  - "Rust binary named add"
+  - "add <a> <b> prints the decimal sum on stdout and exits 0"
+  - "--health prints ok and exits 0"
+out_scope:
+  - "GUI, network, persistence, other operations"
+never_do:
+  - "network calls"
+  - "write files outside the product tree"
+done_when:
+  - id: unit
+    kind: command
+    run: cargo test --offline
+    expect: { exit: 0, timeout_s: 180 }
+  - id: add
+    kind: probe
+    build: cargo build --release --offline
+    run: ./target/release/add 2 3
+    expect: { exit: 0, stdout_contains: "5" }
+  - id: health
+    kind: probe
+    build: cargo build --release --offline
+    run: ./target/release/add --health
+    expect: { exit: 0, stdout_contains: "ok" }
+  - id: no_residue
+    kind: not_present
+    pattern: "TODO|FIXME|placeholder|lorem|example\\.com"
+    in: delta
+constraints:
+  language: rust
+  license: "Apache-2.0 OR MIT"
+budgets:
+  repair_cycles: 3
+  wall_clock_s: 1800
+  model_calls: 20
