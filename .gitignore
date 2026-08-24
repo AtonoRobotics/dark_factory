@@ -1,0 +1,11 @@
+/vault/
+/journal/
+/product/
+/work/
+*.sock
+.env
+.env.*
+node_modules/
+target/
+dist/
+.DS_Store
